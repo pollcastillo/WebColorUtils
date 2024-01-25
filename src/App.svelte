@@ -1,4 +1,6 @@
 <script>
+  import ColorCard from "./components/ColorCard/ColorCard.svelte";
+
   const Tints = [96, 92, 83, 72, 62, 53, 48, 40, 34, 28, 15];
   const Colors = [
     {
@@ -100,12 +102,41 @@
     },
   ];
 
+  // SELECTED COLOR
   let selectedColor = {
     name: "name",
     hue: 0,
     saturation: 0,
     light: 0,
   };
+
+  function setSelectedColor(data) {
+    selectedColor = {
+      name: data.name,
+      hue: data.hue,
+      saturation: data.saturation,
+      light: data.light,
+    };
+  }
+  // END SELECTED COLOR
+
+  // Color Card functions
+  function showPreview(e) {
+    const selectedSwatch = e.detail.element;
+    const selectedSwatchData = selectedSwatch.dataset;
+
+    setSelectedColor(selectedSwatchData);
+    // toggleSwatchPreviewVisibility();
+  }
 </script>
 
-<main></main>
+<!-- app viewport -->
+<div>
+  <!-- Toolbar goes here -->
+
+  <div class="flex p-8 flex-wrap gap-8">
+    {#each Colors as color}
+      <ColorCard on:preview={showPreview} {...color} />
+    {/each}
+  </div>
+</div>
